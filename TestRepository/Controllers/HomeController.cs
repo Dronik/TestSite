@@ -21,33 +21,33 @@ namespace Test.WebSite.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            var homeAddr = new Address
-            {
-                City = "Minsk",
-                Country = "Belarus",
-                Street = "Kuprevicha",
-                Zip = "12345"
-            };
+            //var homeAddr = new Address
+            //{
+            //    City = "Minsk",
+            //    Country = "Belarus",
+            //    Street = "Kuprevicha",
+            //    Zip = "12345"
+            //};
 
-            var person = new Person
-            {
-                FirstName = "John", 
-                LastName = "Malkovich", 
-                Age = 41, 
-                HomeAddress = homeAddr
-            };
-            _personService.CreatePerson(person);
-            CommitProviderInstance.Commit();
+            //var person = new Person
+            //{
+            //    FirstName = "John", 
+            //    LastName = "Malkovich", 
+            //    Age = 41, 
+            //    HomeAddress = homeAddr
+            //};
+            //_personService.CreatePerson(person);
+            //CommitProviderInstance.Commit();
 
-            person.FirstName = "Bob";
-            person.HomeAddress.Country = "Russia";
-            _personService.UpdatePerson(person);
-            CommitProviderInstance.Commit();
+            //person.FirstName = "Bob";
+            //person.HomeAddress.Country = "Russia";
+            //_personService.UpdatePerson(person);
+            //CommitProviderInstance.Commit();
 
-            var p = _personService.GetPerson(2);
+            //var p = _personService.GetPerson(2);
 
-            _personService.DeletePerson(p.Id);
-            CommitProviderInstance.Commit();
+            //_personService.DeletePerson(p.Id);
+            //CommitProviderInstance.Commit();
 
             return View();
         }
