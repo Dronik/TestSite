@@ -1,6 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
 using Test.Model.Interfaces;
 using Test.Model.Model;
 using Test.Model.Model.Mapping;

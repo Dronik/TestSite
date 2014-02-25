@@ -1,5 +1,4 @@
-﻿using System;
-using Ninject.Modules;
+﻿using Ninject.Modules;
 using Ninject.Web.Common;
 using Test.DataProvider.DbFactories;
 using Test.DataProvider.Providers;

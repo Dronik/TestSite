@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Ninject;
+using System;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Ninject;
 using Test.Model.Interfaces.IProviders;
 
 namespace WebApp.Code.DISettings
