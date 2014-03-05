@@ -10,6 +10,9 @@ namespace WebApp.Code
         {
             Mapper.CreateMap<Person, PersonViewModel>();
             Mapper.CreateMap<Address, AddressViewModel>();
+
+            Mapper.CreateMap<PersonViewModel, Person>();
+            Mapper.CreateMap<AddressViewModel, Address>();
         }
     }
 }
