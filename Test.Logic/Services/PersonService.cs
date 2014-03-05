@@ -1,4 +1,5 @@
-﻿using Test.Logic.Interfaces;
+﻿using System.Collections.Generic;
+using Test.Logic.Interfaces;
 using Test.Model.Interfaces.IRepositories;
 using Test.Model.Model;
 
@@ -11,6 +12,12 @@ namespace Test.Logic.Services
         public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
+        }
+
+        public IEnumerable<Person> GetAllPersons()
+        {
+            var p = _personRepository.Get();
+            return p;
         }
 
         public Person GetPerson(int id)

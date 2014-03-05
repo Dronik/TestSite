@@ -1,5 +1,6 @@
 ﻿using System.Web.Mvc;
 using Test.Logic.Interfaces;
+using Test.Model.Model;
 using WebApp.Code;
 
 namespace WebApp.Controllers
@@ -16,23 +17,27 @@ namespace WebApp.Controllers
         // GET: /Home/
         public ActionResult Index()
         {
-            //var homeAddr = new Address
+            //for (int i = 0; i < 3; i++)
             //{
-            //    City = "Minsk",
-            //    Country = "Belarus",
-            //    Street = "Kuprevicha",
-            //    Zip = "12345"
-            //};
+            //    var homeAddr = new Address
+            //    {
+            //        City = "Minsk"+i,
+            //        Country = "Belarus" + i,
+            //        Street = "Kuprevicha" + i,
+            //        Zip = "12345" + i
+            //    };
 
-            //var person = new Person
-            //{
-            //    FirstName = "John", 
-            //    LastName = "Malkovich", 
-            //    Age = 41, 
-            //    HomeAddress = homeAddr
-            //};
-            //_personService.CreatePerson(person);
-            //CommitProviderInstance.Commit();
+            //    var person = new Person
+            //    {
+            //        FirstName = "John" + i,
+            //        LastName = "Malkovich" + i,
+            //        Age = 41 + i,
+            //        HomeAddress = homeAddr
+            //    };
+            //    _personService.CreatePerson(person);
+            //    CommitProviderInstance.Commit();
+            //}
+            
 
             //person.FirstName = "Bob";
             //person.HomeAddress.Country = "Russia";

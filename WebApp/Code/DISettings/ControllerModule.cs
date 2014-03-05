@@ -8,6 +8,7 @@ namespace WebApp.Code.DISettings
         public override void Load()
         {
             Bind<HomeController>().ToSelf().InRequestScope();
+            Bind<PersonsController>().ToSelf().InRequestScope();
         }
 	}
 }
