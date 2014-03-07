@@ -17,8 +17,6 @@ namespace WebApp.Controllers
             _personService = personService;
         }
 
-        //
-        // GET: /Persons/
         [HttpGet]
         public ActionResult Index()
         {

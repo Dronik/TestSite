@@ -1,0 +1,39 @@
+﻿@using WebApp.ViewModels
+@model PersonViewModel
+
+
+@*<div class="modal fade" id="addPersonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">*@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Add new person</h4>
+        </div>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <div class="modal-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FirstName, new { @class = "col-sm-2 control-label" })
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LastName, new { @class = "col-sm-2 control-label" })
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Age, new { @class = "col-sm-2 control-label" })
+                    @Html.TextBoxFor(m => m.Age, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        }
+
+    </div>
+</div>
+@*</div>*@
