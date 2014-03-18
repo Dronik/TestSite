@@ -1,0 +1,51 @@
+﻿@using Microsoft.Ajax.Utilities
+@using PagedList
+@using PagedList.Mvc
+@model IPagedList<WebApp.ViewModels.PersonViewModel>
+
+<div id="personsTable" class="row">
+    <table class="table table-hover table-bordered">
+        <th>
+            First name
+        </th>
+        <th>
+            Last name
+        </th>
+        <th>
+            Age
+        </th>
+        <th>
+            Actions
+        </th>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(x => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(x => item.Age)
+                    </td>
+                    <td>
+                        @*<a href="#">Edit</a>*@
+                        @Ajax.ActionLink("Edit", "UpdatePerson", "Persons", new { personId = item.Id }, new AjaxOptions() { UpdateTargetId = "updateUserModal", OnSuccess = "showModal" })
+                        /
+                        @Ajax.ActionLink("Delete", "DeletePerson", "Persons", new { personId = item.Id }, new AjaxOptions() { UpdateTargetId = "personsTable" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.PagedListPager(Model,
+                            page => Url.Action("GetPersons", "Persons", new { page }),
+                            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.Classic,
+                                                                                    new AjaxOptions() { UpdateTargetId = "personsTable" }))
+</div>
+
+

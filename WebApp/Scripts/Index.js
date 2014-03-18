@@ -17,3 +17,27 @@
     }
 });
 
+
+function personAdded() {
+    $('#addPersonModal').modal('hide');
+}
+
+
+function personUpdated() {
+    $('#updatePersonModal').modal('hide');
+}
+
+function showModal() {
+    $.validator.unobtrusive.parse($('#updatePersonModal').find('form'));
+    $('#updatePersonModal').modal('show');
+}
+
+$(function() {
+    $('.modal').on('hidden.bs.modal', function(e) {
+        var form = $(this).find('form');
+        var validator = form.validate();
+        validator.resetForm();
+        form.trigger('reset');
+    });
+});
+

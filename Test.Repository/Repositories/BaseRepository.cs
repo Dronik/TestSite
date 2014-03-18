@@ -20,31 +20,85 @@ namespace Test.DataProvider.Repositories
             this.dbSet = ((DbContext)dbFactory.GetContext()).Set<TEntity>();
         }
 
+        //public virtual IEnumerable<TEntity> Get(
+        //    Expression<Func<TEntity, bool>> filter = null,
+        //    Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+        //    params Expression<Func<TEntity, object>>[] includeProperties)
+        //{
+        //    IQueryable<TEntity> query = GetQueryable(includeProperties);
+
+        //    if (filter != null)
+        //    {
+        //        query = query.Where(filter);
+        //    }
+
+        //    foreach (var includeProperty in includeProperties.Split
+        //        (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        //    {
+        //        query = query.Include(includeProperty);
+        //    }
+
+        //    if (orderBy != null)
+        //    {
+        //        return orderBy(query).ToList();
+        //    }
+        //    else
+        //    {
+        //        return query.ToList();
+        //    }
+        //}
+
         public virtual IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            string includeProperties = "")
+            params Expression<Func<TEntity, object>>[] includeProperties)
         {
-            IQueryable<TEntity> query = dbSet;
+            var query = GetQueryable(includeProperties);
 
             if (filter != null)
             {
                 query = query.Where(filter);
             }
 
-            foreach (var includeProperty in includeProperties.Split
-                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            if (orderBy != null)
+                query = orderBy(query);
+
+            return query.ToList();
+        }
+
+        public virtual IQueryable<TEntity> GetQueryable(params Expression<Func<TEntity, object>>[] includeProperties)
+        {
+            if (includeProperties == null) throw new ArgumentNullException("includeProperties");
+
+            IQueryable<TEntity> query = dbSet;
+
+            foreach (var includeProperty in includeProperties)
             {
-                query = query.Include(includeProperty);
+                if (includeProperty == null) throw new ArgumentNullException("includeProperties", "Parameter <includeProperties> contain element that null reference.");
+                var methodExpression = (includeProperty.Body as MemberExpression);
+                if (methodExpression == null) throw new ArgumentException("Parameter <includeProperties> should contain only assign to property.");
+
+                query = query.Include(GetPath(includeProperty));
             }
 
-            if (orderBy != null)
+            return query;
+        }
+
+        private static string GetPath(Expression exp)
+        {
+            switch (exp.NodeType)
             {
-                return orderBy(query).ToList();
-            }
-            else
-            {
-                return query.ToList();
+                case ExpressionType.MemberAccess:
+                    var name = GetPath(((MemberExpression)exp).Expression) ?? String.Empty;
+                    if (name.Length > 0) name += ".";
+                    return name + ((MemberExpression)exp).Member.Name;
+                case ExpressionType.Convert:
+                case ExpressionType.Quote:
+                    return GetPath(((UnaryExpression)exp).Operand);
+                case ExpressionType.Lambda:
+                    return GetPath(((LambdaExpression)exp).Body);
+                default:
+                    return null;
             }
         }
 

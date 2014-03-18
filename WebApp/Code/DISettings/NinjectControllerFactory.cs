@@ -8,19 +8,19 @@ namespace WebApp.Code.DISettings
 {
     public class NinjectControllerFactory : DefaultControllerFactory
     {
-        private readonly IKernel ninjectKernel;
+        private readonly IKernel _ninjectKernel;
 
         public NinjectControllerFactory(IKernel kernel)
         {
-            ninjectKernel = kernel;
+            _ninjectKernel = kernel;
         }
 
         protected override IController GetControllerInstance(RequestContext requestContext, Type controllerType)
         {
-            var result = ninjectKernel.Get(controllerType) as IController;
+            var result = _ninjectKernel.Get(controllerType) as IController;
             var commitProviderContainer = result as ICommitProviderContainer;
             if (commitProviderContainer != null)
-                commitProviderContainer.CommitProviderInstance = ninjectKernel.Get<ICommitProvider>();
+                commitProviderContainer.CommitProviderInstance = _ninjectKernel.Get<ICommitProvider>();
 
             return result;
         }

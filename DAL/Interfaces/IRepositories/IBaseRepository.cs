@@ -10,7 +10,9 @@ namespace Test.Model.Interfaces.IRepositories
         IEnumerable<T> Get(
             Expression<Func<T, bool>> filter = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
-            string includeProperties = "");
+            params Expression<Func<T, object>>[] includeProperties);
+
+        IQueryable<T> GetQueryable(params Expression<Func<T, object>>[] includeProperties);
 
         T GetByID(int id);
 

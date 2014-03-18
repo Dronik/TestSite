@@ -10,6 +10,8 @@ namespace WebApp.ViewModels
 {
     public class PersonViewModel
     {
+        public int Id { get; set; }
+
         [Required]
         [DisplayName("First name:")]
         public string FirstName { get; set; }

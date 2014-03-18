@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using PagedList;
+using Test.Logic.Extensions;
 using Test.Logic.Interfaces;
 using Test.Model.Interfaces.IRepositories;
 using Test.Model.Model;
@@ -17,6 +20,13 @@ namespace Test.Logic.Services
         public IEnumerable<Person> GetAllPersons()
         {
             var p = _personRepository.Get();
+            return p;
+        }
+
+        public IPagedList<Person> GetPersonsPaged(int page)
+        {
+            //todo order by fix
+            var p = _personRepository.GetQueryable().OrderBy(x=>x.Id).ToPagedList(page, 5);
             return p;
         }
 

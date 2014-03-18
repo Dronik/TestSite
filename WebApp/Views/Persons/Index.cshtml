@@ -1,58 +1,20 @@
 ﻿@using WebApp.ViewModels
-@model IEnumerable<PersonViewModel>
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Persons list</h2>
-<div class="row">
-    <table class="table table-hover table-bordered">
-        <th>
-            First name
-        </th>
-        <th>
-            Last name
-        </th>
-        <th>
-            Age
-        </th>
-        <th>
-            Actions
-        </th>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(x => item.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(x => item.LastName)
-                </td>
-                <td>
-                    @Html.DisplayFor(x => item.Age)
-                </td>
-                <td>
-                    <a href="#">Edit</a> /
-                    <a href="#">Delete</a>
-                </td>
-            </tr>
-        }
-    </table>
-</div>
+@Html.Action("GetPersons", "Persons", new { })
 
 <div class="row">
     <a ref="#" class="btn btn-default right" data-toggle="modal" data-target="#addPersonModal">Add</a>
 </div>
 
-
-
 <!-- Modals -->
 <div class="modal fade" id="addPersonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    @Html.Partial("_AddEditPersonView", new PersonViewModel())
+    @Html.Partial("_AddPersonView", new PersonViewModel())
 </div>
 
-<div class="modal fade" id="updatePersonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-   
-</div>
+<div id="updateUserModal"></div>
 

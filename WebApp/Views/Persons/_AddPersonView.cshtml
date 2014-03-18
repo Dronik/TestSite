@@ -1,6 +1,15 @@
 ﻿@using WebApp.ViewModels
 @model PersonViewModel
 
+@{
+    var options = new AjaxOptions()
+    {
+        HttpMethod = "POST",
+        OnBegin = "personAdded()",
+        UpdateTargetId = "personsTable"
+    };
+}
+
 
 @*<div class="modal fade" id="addPersonModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">*@
 <div class="modal-dialog">
@@ -9,7 +18,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title" id="myModalLabel">Add new person</h4>
         </div>
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Ajax.BeginForm("AddPerson", "Persons",options, new { @class = "form-horizontal", role = "form" }))
         {
             <div class="modal-body">
                 <div class="form-group">
