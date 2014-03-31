@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using PagedList;
 using Test.Logic.Extensions;
+using Test.Logic.Filters;
 using Test.Logic.Interfaces;
 using Test.Model.Model;
 using WebApp.Code;
@@ -32,15 +33,40 @@ namespace WebApp.Controllers
         }
 
         [HttpGet]
-        public PartialViewResult GetPersons(int? page)
+        public PartialViewResult GetPersons(PersonsListFilterViewModel filterViewModel, int? page)
         {
-            var pageNumber = page ?? 1;
-            var pesonEntities = _personService.GetPersonsPaged(pageNumber);
+            var filter = Mapper.Map<PersonFilter>(filterViewModel);
+            filter.PageSize = 5;
+
+            if (page.HasValue)
+            {
+                filter.PageNumber = page.Value;
+            }
+
+            var pesonEntities = _personService.GetPersonsFiltered(filter);
             var res = pesonEntities.ToMappedPagedList<Person, PersonViewModel>();
 
-            // var res = Mapper.Map<IEnumerable<PersonViewModel>>(pesonEntities);
+            if (page.HasValue)
+            {
+                filterViewModel.PageNumber = page.Value;
+            }
 
-            return PartialView("_ListOfPersons", res);
+
+            var viewModel = new PersonsListViewModel()
+          {
+              Items = res,
+              Filter = filterViewModel
+          };
+
+            ModelState.Clear();
+
+            return PartialView("_ListOfPersons", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult ApplyFilter([Bind(Prefix = "Filter")]PersonsListFilterViewModel model)
+        {
+            return RedirectToAction("GetPersons", model);
         }
 
         [HttpPost]

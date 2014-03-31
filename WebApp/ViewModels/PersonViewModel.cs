@@ -8,6 +8,7 @@ using Test.Model.Model;
 
 namespace WebApp.ViewModels
 {
+    [Serializable]
     public class PersonViewModel
     {
         public int Id { get; set; }

@@ -144,6 +144,7 @@
     <Compile Include="Code\BaseController.cs" />
     <Compile Include="Code\DISettings\ControllerModule.cs" />
     <Compile Include="Code\DISettings\NinjectControllerFactory.cs" />
+    <Compile Include="Code\HtmlHelpers\HTMLExtensions.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PersonsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -151,6 +152,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AddressViewModel.cs" />
+    <Compile Include="ViewModels\BaseFilterViewModel.cs" />
+    <Compile Include="ViewModels\PersonsListFilterViewModel.cs" />
+    <Compile Include="ViewModels\PersonsListViewModel.cs" />
     <Compile Include="ViewModels\PersonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

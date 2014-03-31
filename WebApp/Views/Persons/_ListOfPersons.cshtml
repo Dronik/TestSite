@@ -1,25 +1,60 @@
 ﻿@using Microsoft.Ajax.Utilities
 @using PagedList
 @using PagedList.Mvc
-@model IPagedList<WebApp.ViewModels.PersonViewModel>
+@using WebApp.Code.HtmlHelpers
+@using WebApp.ViewModels
 
-<div id="personsTable" class="row">
+@model PersonsListViewModel
+
+@using (Ajax.BeginForm("ApplyFilter", "Persons", null, new AjaxOptions() { UpdateTargetId = "personsTable" }, new { id = "ajaxPersonsList", @class = "form-horizontal", role = "form" }))
+{
+    <fieldset>
+        <legend class="b-page_subheader">Filter</legend>
+   @*     @Html.HiddenFor(m => m.Filter.PageNumber)*@
+        @*@Html.HiddenFor(m => m.Filter.SortColumn)*@
+        @*@Html.HiddenFor(m => m.Filter.IsAscending)*@
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-4">
+                @Html.LabelFor(m => m.Filter.FirstName, "First Name:")
+                @Html.TextBoxFor(m => m.Filter.FirstName, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.LabelFor(m => m.Filter.LastName, "Last Name:")
+                @Html.TextBoxFor(m => m.Filter.LastName, new { @class = "form-control" })
+            </div>
+            <div class="col-xs-6 col-sm-4">
+                @Html.LabelFor(m => m.Filter.Age, "Age:")
+                @Html.TextBoxFor(m => m.Filter.Age, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            @Html.ApplyFilterFor(m => m.Filter.IsApply, "Apply Filter", "ajaxPersonsList", "btn btn-primary btn-middle pull-right")
+        </div>
+    </fieldset>
+}
+<hr />
+
+<div class="row">
     <table class="table table-hover table-bordered">
         <th>
-            First name
+
+            @Ajax.SortColumnFor1(Model.Filter, m => m.Filter.SortColumn, m => m.Filter.IsAscending, page => Url.Action("GetPersons", "Persons", Model.Filter), new AjaxOptions() { UpdateTargetId = "personsTable" },
+                                                     "FirstName", "glyphicon glyphicon-chevron-down", "glyphicon glyphicon-chevron-up")
         </th>
         <th>
-            Last name
+            @Ajax.SortColumnFor1(Model.Filter, m => m.Filter.SortColumn, m => m.Filter.IsAscending, page => Url.Action("GetPersons", "Persons", Model.Filter), new AjaxOptions() { UpdateTargetId = "personsTable" },
+                                                     "LastName", "glyphicon glyphicon-chevron-down", "glyphicon glyphicon-chevron-up")
         </th>
         <th>
-            Age
+            @Ajax.SortColumnFor1(Model.Filter, m => m.Filter.SortColumn, m => m.Filter.IsAscending, page => Url.Action("GetPersons", "Persons", Model.Filter), new AjaxOptions() { UpdateTargetId = "personsTable" },
+                                                     "Age", "glyphicon glyphicon-chevron-down", "glyphicon glyphicon-chevron-up")
         </th>
         <th>
             Actions
         </th>
         <tbody>
-
-            @foreach (var item in Model)
+            @foreach (var item in Model.Items)
             {
                 <tr>
                     <td>
@@ -32,20 +67,21 @@
                         @Html.DisplayFor(x => item.Age)
                     </td>
                     <td>
-                        @*<a href="#">Edit</a>*@
-                        @Ajax.ActionLink("Edit", "UpdatePerson", "Persons", new { personId = item.Id }, new AjaxOptions() { UpdateTargetId = "updateUserModal", OnSuccess = "showModal" })
+                        @Ajax.ActionLink("Edit", "UpdatePerson", "Persons", new { personId = item.Id }, new AjaxOptions { UpdateTargetId = "updateUserModal", OnSuccess = "showModal" })
                         /
-                        @Ajax.ActionLink("Delete", "DeletePerson", "Persons", new { personId = item.Id }, new AjaxOptions() { UpdateTargetId = "personsTable" })
+                        @Ajax.ActionLink("Delete", "DeletePerson", "Persons", new { personId = item.Id }, new AjaxOptions { UpdateTargetId = "personsTable" })
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 
-    @Html.PagedListPager(Model,
-                            page => Url.Action("GetPersons", "Persons", new { page }),
-                            PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.Classic,
-                                                                                    new AjaxOptions() { UpdateTargetId = "personsTable" }))
+    @Html.PagedListPager(Model.Items,
+        page =>
+        {
+            Model.Filter.PageNumber = page;
+            return Url.Action("GetPersons", "Persons", Model.Filter);
+        },
+        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.Classic,
+            new AjaxOptions { UpdateTargetId = "personsTable" }))
 </div>
-
-

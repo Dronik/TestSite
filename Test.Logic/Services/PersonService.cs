@@ -2,6 +2,8 @@
 using System.Linq;
 using PagedList;
 using Test.Logic.Extensions;
+using Test.Logic.Extensions.Filters;
+using Test.Logic.Filters;
 using Test.Logic.Interfaces;
 using Test.Model.Interfaces.IRepositories;
 using Test.Model.Model;
@@ -23,10 +25,10 @@ namespace Test.Logic.Services
             return p;
         }
 
-        public IPagedList<Person> GetPersonsPaged(int page)
+        public IPagedList<Person> GetPersonsFiltered(PersonFilter filter)
         {
-            //todo order by fix
-            var p = _personRepository.GetQueryable().OrderBy(x=>x.Id).ToPagedList(page, 5);
+            var a = _personRepository.GetQueryable().OrderBy(x => x.Id).ToPagedList(1, 5);
+            var p = _personRepository.GetQueryable().ApplyFilter(filter).ToPagedList(filter.PageNumber ?? 1, filter.PageSize ?? 5);
             return p;
         }
 

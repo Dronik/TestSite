@@ -5,7 +5,10 @@
 
 <h2>Persons list</h2>
 
-@Html.Action("GetPersons", "Persons", new { })
+
+<div id="personsTable" class="row">
+    @Html.Action("GetPersons", "Persons", new { })
+</div>
 
 <div class="row">
     <a ref="#" class="btn btn-default right" data-toggle="modal" data-target="#addPersonModal">Add</a>
